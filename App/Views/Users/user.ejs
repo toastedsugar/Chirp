@@ -1,0 +1,13 @@
+<h1>I AM <%= oneUser.userName %></h1>
+
+<span>
+    <a href="/Users/updateUser/<%= oneUser.userName %> "><button>Update Profile</button></a>
+    <a href=""><button>Delete Profile</button></a>
+</span>
+<ul>
+    <li>Display name - <%= oneUser.displayName %></li>
+    <li>User name - <%= oneUser.userName %></li>
+    <li>Full name - <%= oneUser.firstName %> <%= oneUser.lastName %></li>
+    <li>Description - <%= oneUser.description %></li>
+    <li>Location - <%= oneUser.locationCity %>, <%= oneUser.locationState %>, <%= oneUser.locationCountry %></li>
+</ul>

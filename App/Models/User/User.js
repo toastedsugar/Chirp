@@ -9,6 +9,7 @@ const userSchema = new Schema({
     lastName: String,
     displayName: String,
     userName: String,
+    password: String,
     description: String,
     profilePicture: String,
     chirpCount: Number,
@@ -17,6 +18,9 @@ const userSchema = new Schema({
     locationCity: String,
     locationState: String,
     locationCountry: String,
+    birthYear: Number,
+    birthMonth: Number,
+    birthDay: Number,
 })
 
 module.exports = mongoose.model("User", userSchema)
