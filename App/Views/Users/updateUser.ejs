@@ -1,4 +1,4 @@
-<form action="/users/update/<%= oneUser.userName %> " method="POST" >
+<form action="/users/updateUser/<%= oneUser.userName %>?_method=PATCH" method="POST" >
     <h2>Update user</h2>
     <div>
         <label for="displayName">Select your display name</label>
@@ -35,7 +35,7 @@
                 <option value="<%= x %>"><%= x %></option>
             <% } %> 
             </select>
-            <select id="birthDay" name="user[birthMonth]">
+            <select id="birthDay" name="user[birthDay]">
             <% for (let x = 1; x < 32; x++){ %> 
                 <option value="<%= x %>"><%= x %></option>
             <% } %> 
@@ -55,17 +55,5 @@
         </span>
     </div>
 
-    
-
-    <div>
-        <label for=""></label>
-    </div>
-
-
-
-
-
-
-    
     <button>Submit</button>
 </form>

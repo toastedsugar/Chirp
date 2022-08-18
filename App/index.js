@@ -5,7 +5,8 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require("method-override");
 const path = require('path');
 
-const User = require('./Models/User/User.js')
+const User = require('./Models/User/User.js');
+const { update, updateOne, findOneAndUpdate } = require('./Models/User/User.js');
 
 //Connect to database
 mongoose.connect("mongodb://localhost:27017/Chirp", {
@@ -49,7 +50,7 @@ app.get("/", (req, res) => {
 GET request to view one user's profile */
 app.get("/users/:userName", async(req, res) => {
     const oneUser = await User.findOne({userName: req.params.userName})
-    console.log(oneUser)
+    //console.log(oneUser)
     res.render('Users/user', {oneUser});
 });
 
@@ -82,7 +83,7 @@ app.post('/register', async (req, res) => {
 /***************************************************
 GET Request 
 Update a user's profile*/
-app.get('/users/updateUser/:username', async(req, res) => {
+app.get('/users/updateUser/:userName', async (req, res) => {
     const oneUser = await User.findOne({userName: req.params.userName})
     res.render('Users/updateUser', {oneUser});
 })
@@ -90,8 +91,31 @@ app.get('/users/updateUser/:username', async(req, res) => {
 /***************************************************
 PATCH Request 
 Update a user's profile*/
-app.patch('/users/update/:username', (req, res) => {
-    res.send('Updating')
+app.patch('/users/updateUser/:username', async (req, res) => {
+    /*
+    //console.log(req.body.user)
+    const {username} = req.params
+    console.log(req.body.user)
+    const update = await User.findOneAndUpdate({userName: username}, req.body.user) 
+    //console.log(update)
+    res.send(update)
+    //res.redirect('/users/' + username)
+    */
+    const {username} = req.params
+    //const user = await User.findOne({userName: username})
+    //const savedUser = await user.save()
+    //const user = await updateOne({userName: username}, req.body.user)
+    //const user = await findOneAndUpdate({userName: username}, req.body.user, {new: true})
+    //console.log(user)
+    //const user = await User.findOne({userName: username})
+    const update = await User.updateOne({userName: username}, req.body.user)
+    console.log(update)
+    //res.redirect('/users')
+    //res.redirect('/users/' + username)
+
+    const oneUser = await User.findOne({userName: req.body.user.userName})
+    console.log(oneUser)
+    res.render('Users/user', {oneUser});
 })
 
 
