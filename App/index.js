@@ -92,33 +92,20 @@ app.get('/users/updateUser/:userName', async (req, res) => {
 PATCH Request 
 Update a user's profile*/
 app.patch('/users/updateUser/:username', async (req, res) => {
-    /*
-    //console.log(req.body.user)
     const {username} = req.params
-    console.log(req.body.user)
-    const update = await User.findOneAndUpdate({userName: username}, req.body.user) 
-    //console.log(update)
-    res.send(update)
-    //res.redirect('/users/' + username)
-    */
-    const {username} = req.params
-    //const user = await User.findOne({userName: username})
-    //const savedUser = await user.save()
-    //const user = await updateOne({userName: username}, req.body.user)
-    //const user = await findOneAndUpdate({userName: username}, req.body.user, {new: true})
-    //console.log(user)
-    //const user = await User.findOne({userName: username})
     const update = await User.updateOne({userName: username}, req.body.user)
-    console.log(update)
-    //res.redirect('/users')
-    //res.redirect('/users/' + username)
-
+    //console.log(update)
     const oneUser = await User.findOne({userName: req.body.user.userName})
-    console.log(oneUser)
+    //console.log(oneUser)
     res.render('Users/user', {oneUser});
 })
 
-
+app.delete('/users/:username', async (req, res) => {
+    //console.log('Deleting')
+    const {username} = req.params
+    const deleted = await User.deleteOne({userName: username})
+    res.redirect('/users')
+})
 
 
 

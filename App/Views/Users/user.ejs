@@ -2,7 +2,10 @@
 
 <span>
     <a href="/Users/updateUser/<%= oneUser.userName %> "><button>Update Profile</button></a>
-    <a href=""><button>Delete Profile</button></a>
+    <form action="/users/<%= oneUser.userName %>?_method=delete"  method="POST">
+        <button>Delete Profile</button>
+    </form>
+
 </span>
 <ul>
     <li>Display name - <%= oneUser.displayName %></li>
