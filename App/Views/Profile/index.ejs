@@ -10,8 +10,8 @@
     <h1>ALL USERS</h1>
     <a href="/register"><button>Create new user</button></a>
     <div>
-    <% for (let user of allUsers){ %>
-        <a href="/users/<%= user.userName %> "><p><%= user.userName %> </p></a>
+    <% for (let profile of profiles){ %>
+        <a href="/profiles/<%= profile.userName %> "><p><%= profile.userName %> </p></a>
     <% } %>  
     </div>
     

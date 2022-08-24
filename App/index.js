@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const methodOverride = require("method-override");
 const path = require('path');
+const morgan = require('morgan')
 
-const User = require('./Models/User/User.js');
-const { update, updateOne, findOneAndUpdate } = require('./Models/User/User.js');
+const Profile = require('./Models/Profile/ProfileModel.js');
+
+const AppError = require('./Utils/AppError')
 
 //Connect to database
 mongoose.connect("mongodb://localhost:27017/Chirp", {
@@ -35,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'Public')));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(morgan('dev'));        // Activate logger
 
 /***************************************************
 GET Request for homepage */
@@ -48,66 +51,96 @@ app.get("/", (req, res) => {
 
 /***************************************************
 GET request to view one user's profile */
-app.get("/users/:userName", async(req, res) => {
-    const oneUser = await User.findOne({userName: req.params.userName})
+app.get("/profiles/:profileName", async(req, res) => {
+    const profile = await Profile.findOne({profileName: req.params.profileName})
     //console.log(oneUser)
-    res.render('Users/user', {oneUser});
+    res.render('Profile/view', {profile});
 });
 
 /***************************************************
 GET Request for List of all users */
-app.get("/users", async(req, res) => {
+app.get("/profiles", async(req, res) => {
     //res.send("HELLO");
-    const allUsers = await User.find({})
-    res.render("Users/userIndex", {allUsers});
+    const profiles = await Profile.find({})
+    res.render("Profile/index", {profiles});
 });
 
 /***************************************************
 GET Request 
 View the new user creation page*/
 app.get('/register', (req, res) => {
-    res.render('Users/createUser');
+    res.render('Profile/create');
 });
 
 /***************************************************
 Post Request 
 Submit new user data*/
-app.post('/register', async (req, res) => {
-    //console.log(req.body.user)
-    const newUser = new User(req.body.user)
-    await newUser.save()
-    //res.send(newUser)
-    res.redirect('/users')
+app.post('/register', async (req, res, next) => {
+    try {
+        //console.log(req.body.user)
+        const newProfile = new Profile(req.body.user)
+        if(!newProfile){
+            throw new AppError('Product not found', 404)
+        }
+        await newProfile.save()
+        //res.send(newUser)
+        res.redirect('/profiles')
+    }
+    catch(e){
+        next(e)
+    }
 });
 
 /***************************************************
 GET Request 
 Update a user's profile*/
-app.get('/users/updateUser/:userName', async (req, res) => {
-    const oneUser = await User.findOne({userName: req.params.userName})
-    res.render('Users/updateUser', {oneUser});
+app.get('/profiles/update/:userName', async (req, res, next) => {
+    try{
+        const profile = await Profile.findOne({userName: req.params.userName})
+        res.render('Profile/update', {profile});
+    } catch(e){
+        next(e)
+    }
 })
 
 /***************************************************
 PATCH Request 
 Update a user's profile*/
-app.patch('/users/updateUser/:username', async (req, res) => {
-    const {username} = req.params
-    const update = await User.updateOne({userName: username}, req.body.user)
-    //console.log(update)
-    const oneUser = await User.findOne({userName: req.body.user.userName})
-    //console.log(oneUser)
-    res.render('Users/user', {oneUser});
+app.patch('/profiles/:username', async (req, res, next) => {
+    try{
+        const {username} = req.params
+        const update = await Profile.updateOne({userName: username}, req.body.user)
+        if(!update){
+            throw new AppError('Product not found', 404)
+        }
+        //console.log(update)
+        const profile = await Profile.findOne({userName: req.body.user.userName})
+        //console.log(oneUser)
+        res.render('Profile/view', {profile});
+    } catch(e){
+        next(e)
+    }
 })
 
-app.delete('/users/:username', async (req, res) => {
-    //console.log('Deleting')
-    const {username} = req.params
-    const deleted = await User.deleteOne({userName: username})
-    res.redirect('/users')
+app.delete('/profiles/:username', async (req, res, next) => {
+    try{
+        //console.log('Deleting')
+        const {username} = req.params
+        const deleted = await Profile.deleteOne({userName: username})
+        if(!deleted){
+            throw new AppError('Product not found', 404)
+        }
+        res.redirect('/profiles')
+    } catch(e){
+        next(e)
+    }
 })
 
-
+// Last resort error handler
+app.use((err, req, res, next) =>{
+    const{status = 500, message = 'Something went Wrong'} = err
+    res.status(status).send(message)
+})
 
 /***************************************************
 Run application */

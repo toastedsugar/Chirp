@@ -1,0 +1,63 @@
+<form action="/profiles/<%= profile.userName %>?_method=PATCH" method="POST" >
+    <h2>Update user</h2>
+    <div>
+        <label for="displayName">Select your display name</label>
+        <input type="text" id="displayName" name="user[displayName]" value="<%= profile.displayName %>" required>
+    </div>
+    <div>
+        <label for="userName">Select a username</label>
+        <input type="text" id="userName" name="user[userName]" value="<%= profile.userName %>" required>
+    </div>
+    <div>
+        <label for="password">Enter a password</label>
+        <input type="text" id="password" name="user[password]" value="<%= profile.password %>" required>
+    </div>
+
+    <div>
+        <span>
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="user[firstName]" value="<%= profile.firstName %>" required>
+        </span>
+        <span>
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="user[lastName]" value="<%= profile.lastName %>" required>
+        </span>
+    </div>
+    <div>
+        <label for="description">Description</label>
+        <textarea id="description" rows="4" cols="50" name="user[description]"><%= profile.description %></textarea>
+    </div>
+    <div>
+        <span>
+            Birthday 
+            <select id="birthMonth" name="user[birthMonth]">
+            <% for (let x = 1; x < 13; x++){ %> 
+                <option value="<%= profile.birthMonth %>"><%= x %></option>
+            <% } %> 
+            </select>
+            <select id="birthDay" name="user[birthDay]">
+            <% for (let x = 1; x < 32; x++){ %> 
+                <option value="<%= profile.birthDay %>"><%= x %></option>
+            <% } %> 
+            </select>
+            <select id="birthYear" name="user[birthYear]">
+            <% for (let x = 1833; x < 2027; x++){ %> 
+                <option value="<%= profile.birthYear %>"><%= x %></option>
+            <% } %> 
+            </select>
+        </span>
+    </div>
+    <div>
+        <span>
+            Location: 
+            <label for="city">City</label>
+            <input type="text" id="city" name="user[city]" value="<%= profile.city %>">
+            <label for="state">State</label>
+            <input type="text" id="state" name="user[state]" value="<%= profile.state %>">
+            <label for="country">Country</label>
+            <input type="text" id="country" name="user[country]" value="<%= profile.country %>">
+        </span>
+    </div>
+
+    <button>Submit</button>
+</form>

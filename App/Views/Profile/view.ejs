@@ -1,0 +1,17 @@
+<h1>I AM <%= profile.userName %></h1>
+
+<span>
+    <a href="/profiles/update/<%= profile.userName %> "><button>Update Profile</button></a>
+    <form action="/profiles/<%= profile.userName %>?_method=delete"  method="POST">
+        <button>Delete Profile</button>
+    </form>
+
+</span>
+<ul>
+    <li>Display name - <%= profile.displayName %></li>
+    <li>User name - <%= profile.userName %></li>
+    <li>Full name - <%= profile.firstName %> <%= profile.lastName %></li>
+    <li>Description - <%= profile.description %></li>
+    <li>Birthday - <%= profile.birthMonth %>/<%= profile.birthDay %>/<%= profile.birthYear %></li>
+    <li>Location - <%= profile.city %>, <%= profile.state %>, <%= profile.country %></li>
+</ul>

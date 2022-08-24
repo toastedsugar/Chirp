@@ -1,0 +1,22 @@
+{
+    "users": [
+        {
+            "firstName":        "Ermacora",
+            "lastName":         "Harrell",
+            "displayName":      "eharrell",
+            "userName":         "eharrell",
+            "password":         "eharrell",
+            "description":      "",
+            "profilePicture":   "",
+            "chirpCount":       0,
+            "followingCount":   0,
+            "followerCount":    0,
+            "city":             "Lombardy",
+            "state":            "",
+            "country":          "Italy",
+            "birthYear":        1989,
+            "birthMonth":       2,
+            "birthDay":         20
+        }
+    ]
+}
