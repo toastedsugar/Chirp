@@ -1,0 +1,20 @@
+<% layout("Layouts/boilerplate") %> 
+
+<%= error %> 
+
+<form action="/register" method="POST" >
+    <h2>Create new user</h2>
+    <div>
+        <label for="username">Select a username</label>
+        <input type="text" id="username" name="user[username]" required>
+    </div>
+    <div>
+        <label for="displayName">Select your display name</label>
+        <input type="text" id="displayName" name="user[displayName]" required>
+    </div>
+    <div>
+        <label for="password">Enter a password</label>
+        <input type="text" id="password" name="password" required>
+    </div>
+    <button>Submit</button>
+</form>

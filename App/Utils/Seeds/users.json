@@ -1,22 +1,22 @@
 {
     "users": [
         {
-            "firstName":        "Ermacora",
-            "lastName":         "Harrell",
-            "displayName":      "eharrell",
-            "userName":         "eharrell",
-            "password":         "eharrell",
-            "description":      "",
+            "firstName":        "Jesus",
+            "lastName":         "Christ",
+            "displayName":      "Jesus Christ",
+            "userName":         "jchrist",
+            "password":         "jchrist",
+            "description":      "Son of God",
             "profilePicture":   "",
             "chirpCount":       0,
             "followingCount":   0,
             "followerCount":    0,
-            "city":             "Lombardy",
-            "state":            "",
-            "country":          "Italy",
-            "birthYear":        1989,
-            "birthMonth":       2,
-            "birthDay":         20
+            "city":             "Jerusalem",
+            "state":            "Jerusalem",
+            "country":          "Palestine",
+            "birthYear":        0,
+            "birthMonth":       12,
+            "birthDay":         25
         }
     ]
 }

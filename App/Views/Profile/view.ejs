@@ -1,17 +1,21 @@
-<h1>I AM <%= profile.userName %></h1>
+<% layout("Layouts/boilerplate") %> 
 
-<span>
-    <a href="/profiles/update/<%= profile.userName %> "><button>Update Profile</button></a>
-    <form action="/profiles/<%= profile.userName %>?_method=delete"  method="POST">
+<h1>I am <%= profile.displayName %></h1>
+
+<%= updated %> 
+
+<div>
+    <a href="/profiles/update/<%= profile.username %> "><button>Update Profile</button></a>
+    <form action="/profiles/<%= profile.username %>?_method=delete"  method="POST">
         <button>Delete Profile</button>
     </form>
 
-</span>
+</div>
 <ul>
-    <li>Display name - <%= profile.displayName %></li>
-    <li>User name - <%= profile.userName %></li>
-    <li>Full name - <%= profile.firstName %> <%= profile.lastName %></li>
-    <li>Description - <%= profile.description %></li>
-    <li>Birthday - <%= profile.birthMonth %>/<%= profile.birthDay %>/<%= profile.birthYear %></li>
-    <li>Location - <%= profile.city %>, <%= profile.state %>, <%= profile.country %></li>
+    <div>Display name - <%= profile.displayName %></div>
+    <div>User name - <%= profile.username %></div>
+    <div>Full name - <%= profile.firstName %> <%= profile.lastName %></div>
+    <div>Description - <%= profile.description %></div>
+    <div>Birthday - <%= profile.birthMonth %>/<%= profile.birthDay %>/<%= profile.birthYear %></div>
+    <div>Location - <%= profile.city %>, <%= profile.state %>, <%= profile.country %></div>
 </ul>

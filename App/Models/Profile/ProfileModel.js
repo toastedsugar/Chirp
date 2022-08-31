@@ -4,12 +4,11 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 const Schema = mongoose.Schema;
 
+// username and password
 const profileSchema = new Schema({
+    displayName:    {type: String},
     firstName:      {type: String},
     lastName:       {type: String},
-    displayName:    {type: String},
-    userName:       {type: String},
-    password:       {type: String},
     description:    {type: String},
     profilePicture: {type: String},
     chirpCount:     {type: Number},
@@ -31,5 +30,7 @@ const profileSchema = new Schema({
                         default: 1
                     },
 })
+
+profileSchema.plugin(passportLocalMongoose)
 
 module.exports = mongoose.model('Profile', profileSchema)

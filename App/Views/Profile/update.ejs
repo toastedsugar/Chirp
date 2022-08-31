@@ -1,26 +1,26 @@
-<form action="/profiles/<%= profile.userName %>?_method=PATCH" method="POST" >
+<% layout("Layouts/boilerplate") %> 
+
+<form action="/profiles/<%= profile.username %>?_method=PATCH" method="POST" >
     <h2>Update user</h2>
     <div>
         <label for="displayName">Select your display name</label>
         <input type="text" id="displayName" name="user[displayName]" value="<%= profile.displayName %>" required>
     </div>
     <div>
-        <label for="userName">Select a username</label>
-        <input type="text" id="userName" name="user[userName]" value="<%= profile.userName %>" required>
+        Username: <b><%= profile.username %></b>
     </div>
     <div>
-        <label for="password">Enter a password</label>
-        <input type="text" id="password" name="user[password]" value="<%= profile.password %>" required>
+        Password: <b><%= profile.password %></b>
     </div>
 
     <div>
         <span>
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="user[firstName]" value="<%= profile.firstName %>" required>
+            <input type="text" id="firstName" name="user[firstName]" value="<%= profile.firstName %>">
         </span>
         <span>
             <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="user[lastName]" value="<%= profile.lastName %>" required>
+            <input type="text" id="lastName" name="user[lastName]" value="<%= profile.lastName %>">
         </span>
     </div>
     <div>
