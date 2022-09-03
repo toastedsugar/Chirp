@@ -7,13 +7,15 @@ const path = require('path');
 const session = require('express-session')
 const flash = require('connect-flash')
 const morgan = require('morgan')
+const cookieParser = require('cookie-parser')
 //const passport = require('passport');
-//const LocalStrategy = require('passport-local')
+const LocalStrategy = require('passport-local')
 
 const Profile = require('./Models/Profile/ProfileModel.js');
 const AppError = require('./Utils/Middleware/AppError');
 const wrapAsync = require('./Utils/Middleware/wrapAsync');
-const useFlashes = require('./Utils/Middleware/useFlashes')
+const useFlashes = require('./Utils/Middleware/useFlashes');
+const passport = require('passport');
 
 //Connect to database
 mongoose.connect("mongodb://localhost:27017/Chirp", {
@@ -43,30 +45,33 @@ app.use(express.static(path.join(__dirname, 'Public')));
 sessionOptions = {
     secret: "Verry-secret",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 *7,
+        maxAge: 1000 * 60 * 60 * 24 *7,
+    }
 }
+app.use(cookieParser())
 app.use(session(sessionOptions))
-app.use(flash())
 
-//app.use(passport.session(sessionConfig))
+app.use(flash())
+app.use(useFlashes)
+
+// Configure passport
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(Profile.authenticate()))
+passport.serializeUser(Profile.serializeUser())
+passport.deserializeUser(Profile.deserializeUser())
 
 // Set the bootstrap javascript in node_modules as a static directory
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+
 app.use(morgan('dev'));        // Activate logger
-
-/*
-// Configure passport
-passport.use(new LocalStrategy(Profile.authenticate()))
-//app.use(passport.session())
-passport.serializeUser(Profile.serializeUser())
-passport.deserializeUser(Profile.deserializeUser())
-*/
-
-
-app.use(useFlashes)
 
 
 /***************************************************
@@ -116,7 +121,7 @@ app.post('/register', wrapAsync(async (req, res, next) => {
     try{
         const newProfile = new Profile(req.body.user)
         const registration = await Profile.register(newProfile, req.body.password)
-        req.flash('registered', `${newProfile.username} has been registered`)
+        req.flash('success', `${newProfile.username} has been registered`)
         res.redirect('/profiles')
     } catch (e) {
         req.flash('error', e.message)
@@ -134,9 +139,9 @@ app.get('/login', (req, res) => {
 /***************************************************
 POST Request 
 Submit login information*/
-app.post('/login', wrapAsync(async (req, res, next) => {
-    //res.render('Profile/login');
-    res.send('Logged in')
+app.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), wrapAsync(async (req, res, next) => {
+    req.flash('success', `Welcome back, ${req.body.username}`)
+    res.redirect('/profiles')
 }));
 
 /***************************************************
@@ -161,7 +166,7 @@ app.patch('/profiles/:username', wrapAsync(async (req, res, next) => {
         }
         const profile = await Profile.findOne({username: username})
   
-        req.flash('updated', 'Updated profile information')
+        req.flash('success', 'Updated profile information')
         res.redirect(`/profiles/${username}`);
 }))
 
@@ -172,7 +177,7 @@ app.delete('/profiles/:username', wrapAsync(async (req, res, next) => {
         if(!deleted){
             throw new AppError('Product not found', 404)
         }
-        req.flash('deleted', `${username} has been terminated`)
+        req.flash('success', `${username} has been terminated`)
         //console.log(res.flash)
         res.redirect('/profiles')
 }));

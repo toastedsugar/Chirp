@@ -2,8 +2,6 @@
 
 <h1>I am <%= profile.displayName %></h1>
 
-<%= updated %> 
-
 <div>
     <a href="/profiles/update/<%= profile.username %> "><button>Update Profile</button></a>
     <form action="/profiles/<%= profile.username %>?_method=delete"  method="POST">
